@@ -313,7 +313,7 @@ class CustomError extends Error {
     }
 
     somethingDo() {
-        alert('Hi!')
+        console.log('holla!');
     }
 }
 try {
@@ -325,5 +325,65 @@ try {
     console.log(e.stack);
 }
 
+class ApiError extends Error {
+    constructor(mes) {
+        super(mes)
+        this.name = this.constructor.name 
+        this.stack = (new Error).stack
+    }
+}
+
+class AuthError extends ApiError {
+    constructor(mes, role) {
+        super(mes)
+        this.userRole = role
+    }
+}
+
+const obj = {
+    name: 'sv',
+    age: 20, 
+    hasRole: false
+}
+
+function checkAuthToken (objUserData) {
+    try {
+        if (!objUserData.hasRole) {
+            throw new AuthError ('вы не зарегестрированы')
+        } else {
+            // code ...
+        }
+    } catch (e) {
+        if (e instanceof AuthError) {
+            // code
+            console.log(1);
+        }
+    }
+  
+}
+
+checkAuthToken(obj)
+
 console.log('скрипт дошел до конца');
+
+
+// const randonSgn =  document.querySelector('.random-sign')
+// const btn =  document.querySelector('.btn')
+
+// let prevOperation = ''
+// const arrSigns = ['+', '-', '/', '*']
+
+// function getRandomSign () {
+    
+//     const randomItem = arrSigns[Math.floor(Math.random() * arrSigns.length)];
+  
+//     if (randomItem === prevOperation) {
+//         getRandomSign()
+//     } else {
+//         prevOperation = randomItem
+//         randonSgn.textContent = randomItem
+//     }
+//    }
+
+// btn.addEventListener('click', getRandomSign)
 
